@@ -1,0 +1,86 @@
+spring:
+  # 静态资源处理
+  resources:
+  # 自动默认静态资源处理，默认启用
+    add-mappings: true
+    cache: 
+      cachecontrol:
+      # 缓冲响应时间，单位秒
+        max-age: 3600
+    chain:
+      # 资源链自动缓存
+      cache: true
+      # 资源链启用
+      enabled: true
+      # 资源链压缩
+      compressed: true
+      # 资源链html缓存
+      html-application-cache: true
+    # 静态资源目录
+    static-locations: classpath:/static/
+  # thymeleaf配置
+  thymeleaf:
+    # 关闭缓存
+    cache:false
+
+  # 数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3336/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+    hikari:
+      # 连接池名
+      pool-name: DateHikariCP
+      # 最小空闲连接数
+      minimum-idle: 5
+      # 空闲连接存活最大时间，默认为600000（10分钟）
+      idle-timeout: 180000
+      # 最大连接数，默认10
+      maximum-pool-size: 10
+      # 从连接池返回的链接自动提交
+      auto-commit: true
+      # 连接最大存活时间，0表示永久存活，默认1800000（30分钟）
+      max-lifetime: 1800000
+      # 连接超时时间，默认30000（30秒）
+      connection-timeout: 30000
+      # 测试连接，是否可用的查询语句
+      connection-test-query: SELECT 1
+
+  # Redis 配置
+  redis:
+    host: 172.25.136.19
+    port: 6379
+    database: 0
+    timeout: 10000
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 200
+        min-idle: 5
+        max-wait: 10000
+
+  # Mybatis-plus 配置（注意：这里需要移到 spring 配置外部）
+  mybatis-plus:
+    mapper-locations: classpath:/mapper/*.xml
+    type-aliases-package: com.xxxx.seckill.pojo
+    configuration:
+      map-underscore-to-camel-case: true
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    global-config:
+      db-config:
+        id-type: auto
+
+  # 日志配置（注意：这里需要移到 spring 配置外部）
+  logging:
+    level:
+      com.xxxx.seckill.mapper: debug
+
+  # 添加静态资源配置
+  web:
+    resources:
+      static-locations: classpath:/static/
+  mvc:
+    static-path-pattern: /**
+
+

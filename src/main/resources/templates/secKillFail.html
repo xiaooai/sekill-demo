@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>秒杀失败</title>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <div class="alert alert-danger">
+        <h2>秒杀失败</h2>
+        <p th:text="${errmsg}"></p>
+        <a class="btn btn-primary" th:href="@{/goods/toList}">返回商品列表</a>
+    </div>
+</div>
+</body>
+</html>

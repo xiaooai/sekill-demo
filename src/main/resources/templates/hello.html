@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- 告诉SpringBoot，这个页面使用Thymeleaf模板引擎 -->
+<head>
+    <meta charset="UTF-8"> <!-- 告诉SpringBoot，这个页面使用UTF-8编码 -->
+    <title>测试</title> <!-- 设置浏览器标签页标题 -->   
+</head>
+<body>
+    <h1>Hello, name!</h1> <!-- 一级标题，设置页面标题 -->
+    <p th:text="'hello'+${name}"></p> <!-- 设置页面内容，段落，name为从服务器取来的变量 -->
+</body>
+</html>
