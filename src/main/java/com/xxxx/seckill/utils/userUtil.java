@@ -36,10 +36,10 @@ public class userUtil {
         }
         System.out.println("创建user");
         Connection connection = getConnect();
-       System.out.println("创建数据库连接");
-       String sql = "insert into t_user(login_count,nickname,register_date,salt,password,id) values(?,?,?,?,?,?)";
-       PreparedStatement preparedStatement = connection.prepareStatement(sql);
-       for(int i = 0; i < count; ++i) {
+        System.out.println("创建数据库连接");
+        String sql = "insert into t_user(login_count,nickname,register_date,salt,password,id) values(?,?,?,?,?,?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        for(int i = 0; i < count; ++i) {
            User user = users.get(i);
            preparedStatement.setInt(1, user.getLoginCount());
            preparedStatement.setString(2, user.getNickname());
@@ -48,12 +48,12 @@ public class userUtil {
            preparedStatement.setString(5, user.getPassword());
            preparedStatement.setLong(6,user.getId());
            preparedStatement.addBatch();
-       }
-       preparedStatement.executeBatch();
-       preparedStatement.close();
-       System.out.println("插入成功");
-       connection.close();
-       System.out.println("放入数据库");
+         }
+        preparedStatement.executeBatch();
+        preparedStatement.close();
+        System.out.println("插入成功");
+        connection.close();
+        System.out.println("放入数据库");
         // 登录，生成token
         String urlString = "http://localhost:8080/login/doLogin";
         File file = new File("C:\\Users\\Administrator\\Desktop\\项目1\\config.txt");

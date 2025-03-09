@@ -1,6 +1,7 @@
 package com.xxxx.seckill.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +33,14 @@ public class SecKillController {
     @Autowired
     private IOrderService orderService;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     // 秒杀：
     // windows优化前QPS： 530.8/sec
     // linux优化前QPS：1535.1/sec
+    // 优化后QPS： 1343/sec
+    // 
     @RequestMapping("/doSeckill2")
     public String doSeckill2(Model model, User user, Long goodsId) {
         if (user == null) {
@@ -47,10 +53,12 @@ public class SecKillController {
             model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
             return "secKillFail";
         }
-        // 判断是否重复秒杀
-        SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>()
-                .eq("user_id", user.getId())
-                .eq("goods_id", goodsId));
+        // // 判断是否重复秒杀
+        // SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>()
+        //         .eq("user_id", user.getId())
+        //         .eq("goods_id", goodsId));
+        SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":" + goodsId);
+        
         if (seckillOrder != null) {
             model.addAttribute("errmsg", RespBeanEnum.REPEAT_ERROR.getMessage());
             return "secKillFail";

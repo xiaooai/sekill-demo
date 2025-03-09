@@ -7,6 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // 标记这是一个完整独立的SpringBoot应用，核心标志不能删除
 // 会自动开启组件扫描，寻找@Controller、@Service等组件
 @SpringBootApplication 
+
+
+
+
 @MapperScan("com.xxxx.seckill.mapper")
 public class SeckillDemoApplication { // 命名规则，项目名+Application
 
