@@ -23,7 +23,7 @@ public class userUtil {
 
     private static void createUser(int count) throws Exception {
         List<User> users = new ArrayList<>(count);
-        // 生成用户
+        //生成用户
         for(int i = 0; i < count; ++i) {
             User user = new User();
             user.setId(13000000000L + i);
@@ -34,26 +34,26 @@ public class userUtil {
             user.setRegisterDate(new Date());
             users.add(user);
         }
-        System.out.println("创建user");
-        Connection connection = getConnect();
-        System.out.println("创建数据库连接");
-        String sql = "insert into t_user(login_count,nickname,register_date,salt,password,id) values(?,?,?,?,?,?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        for(int i = 0; i < count; ++i) {
-           User user = users.get(i);
-           preparedStatement.setInt(1, user.getLoginCount());
-           preparedStatement.setString(2, user.getNickname());
-           preparedStatement.setTimestamp(3, new Timestamp(user.getRegisterDate().getTime()));
-           preparedStatement.setString(4, user.getSalt());
-           preparedStatement.setString(5, user.getPassword());
-           preparedStatement.setLong(6,user.getId());
-           preparedStatement.addBatch();
-         }
-        preparedStatement.executeBatch();
-        preparedStatement.close();
-        System.out.println("插入成功");
-        connection.close();
-        System.out.println("放入数据库");
+        // System.out.println("创建user");
+        // Connection connection = getConnect();
+        // System.out.println("创建数据库连接");
+        // String sql = "insert into t_user(login_count,nickname,register_date,salt,password,id) values(?,?,?,?,?,?)";
+        // PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        // for(int i = 0; i < count; ++i) {
+        //    User user = users.get(i);
+        //    preparedStatement.setInt(1, user.getLoginCount());
+        //    preparedStatement.setString(2, user.getNickname());
+        //    preparedStatement.setTimestamp(3, new Timestamp(user.getRegisterDate().getTime()));
+        //    preparedStatement.setString(4, user.getSalt());
+        //    preparedStatement.setString(5, user.getPassword());
+        //    preparedStatement.setLong(6,user.getId());
+        //    preparedStatement.addBatch();
+        //  }
+        // preparedStatement.executeBatch();
+        // preparedStatement.close();
+        // System.out.println("插入成功");
+        // connection.close();
+        // System.out.println("放入数据库");
         // 登录，生成token
         String urlString = "http://localhost:8080/login/doLogin";
         File file = new File("C:\\Users\\Administrator\\Desktop\\项目1\\config.txt");

@@ -60,6 +60,42 @@ spring:
         min-idle: 5
         max-wait: 10000
 
+  # RabbitMQ 配置
+  rabbitmq:
+    # 服务器地址
+    host: 172.25.136.19
+    # 用户名
+    username: guest
+    # 密码
+    password: guest
+    # 虚拟主机
+    virtual-host: /
+    # 端口
+    port: 5672
+    listener:
+      simple:
+        # 消费者最小数量
+        concurrency: 10
+        # 消费者最大数量
+        max-concurrency: 20
+        # 限制消费者每次处理一条消息
+        prefetch: 1
+        # 自动启动
+        auto-startup: true
+        # 被拒绝时重新进入队列
+        default-requeue-rejected: true
+    template:
+      # 重试次数
+      retry:
+        # 重试次数
+        max-attempts: 3
+        # 重试间隔时间
+        initial-interval: 1000
+        # 最大间隔时间
+        max-interval: 10000
+        # 重试的间隔
+        multiplier: 1
+
   # Mybatis-plus 配置（注意：这里需要移到 spring 配置外部）
   mybatis-plus:
     mapper-locations: classpath:/mapper/*.xml
