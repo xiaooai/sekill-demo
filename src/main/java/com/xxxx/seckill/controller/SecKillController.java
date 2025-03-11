@@ -1,5 +1,7 @@
 package com.xxxx.seckill.controller;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -48,6 +51,9 @@ public class SecKillController implements InitializingBean{
 
     @Autowired
     private MQSender mqSender;
+
+    @Autowired
+    private RedisScript<Long> script;   
 
     private Map<Long, Boolean> EMPTY_STOCK_MAP = new HashMap<>();
 
@@ -109,13 +115,14 @@ public class SecKillController implements InitializingBean{
         }
 
         // 预减库存
-        Long stock = valueOperations.decrement("seckillGoods:" + goodsId);
+        // Long stock = valueOperations.decrement("seckillGoods:" + goodsId);
+        Long stock = (Long) redisTemplate.execute(script, Collections.singletonList("seckillGoods:" + goodsId), Collections.EMPTY_LIST);
         System.out.println("商品ID:" + goodsId + " Redis预减后库存:" + stock);
         
         if (stock < 0) {
             EMPTY_STOCK_MAP.put(goodsId, true);
             valueOperations.increment("seckillGoods:" + goodsId);
-            System.out.println("商品ID:" + goodsId + " 库存不足，Redis库存回滚");
+            System.out.println("商品ID:" + goodsId + " 库存不足，Redis库存");
             return RespBean.error(RespBeanEnum.EMPTY_STOCK);
         }
         // 下单

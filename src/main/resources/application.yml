@@ -49,16 +49,16 @@ spring:
 
   # Redis 配置
   redis:
-    host: 172.25.136.19
+    host: localhost
     port: 6379
     database: 0
-    timeout: 10000
+    timeout: 10000ms
     lettuce:
       pool:
         max-active: 8
         max-idle: 200
         min-idle: 5
-        max-wait: 10000
+        max-wait: 10000ms
 
   # RabbitMQ 配置
   rabbitmq:
